@@ -780,15 +780,31 @@ filtered_rdd = counts_rdd.filter(lambda pair: pair[0] in TARGET_KEYWORDS)</pre>
         <p><strong>Aim:</strong> To build and validate an end-to-end data pipeline reading raw CSV files from HDFS storage, cleaning and engineering capacity factor metrics with PySpark, and staging records in a MongoDB NoSQL database.</p>
         <p><strong>Pipeline Architecture:</strong> <code>CSV Lake</code> &rarr; <code>HDFS (/raw/)</code> &rarr; <code>PySpark Transformations</code> &rarr; <code>HDFS (/processed/)</code> &rarr; <code>MongoDB Collection</code>.</p>
 
-        <h3 class="sub-title">1. Pipeline Execution Terminal Output (Figure 4.1)</h3>
+        <h3 class="sub-title">1. PySpark Data Ingestion & Schema Terminal Output (Figure 4.1)</h3>
         <div class="screenshot-box">
           <div class="screenshot-header">
-            <span class="screenshot-caption">Figure 4.1: HDFS Staging, PySpark Cleaning, MongoDB Ingestion (1,440 Docs), and Query Validation</span>
+            <span class="screenshot-caption">Figure 4.1: HDFS Staging, Raw Data Ingestion (720 Solar + 720 Wind), and PySpark Cleaned Schema</span>
           </div>
-          <img src="screenshots/exp4_01_pipeline_mongodb.png" alt="Exp 4 Pipeline Output" onclick="openLightbox(this.src)">
+          <img src="screenshots/exp4_01_pyspark_ingestion.png" alt="Exp 4 PySpark Ingestion Output" onclick="openLightbox(this.src)">
         </div>
 
-        <h3 class="sub-title">2. End-to-End Pipeline Validation Checklist</h3>
+        <h3 class="sub-title">2. MongoDB Document Staging & Query Results (Figure 4.2)</h3>
+        <div class="screenshot-box">
+          <div class="screenshot-header">
+            <span class="screenshot-caption">Figure 4.2: MongoDB 1,440 Document Staging, Document Count, Peak Solar Filter, and Aggregation Pipeline</span>
+          </div>
+          <img src="screenshots/exp4_02_mongodb_staging_queries.png" alt="Exp 4 MongoDB Staging Output" onclick="openLightbox(this.src)">
+        </div>
+
+        <h3 class="sub-title">3. End-to-End Validation Checklist Terminal Output (Figure 4.3)</h3>
+        <div class="screenshot-box">
+          <div class="screenshot-header">
+            <span class="screenshot-caption">Figure 4.3: End-to-End Pipeline Validation Checklist &mdash; All 6 Verification Checkpoints Passed</span>
+          </div>
+          <img src="screenshots/exp4_03_validation_checklist.png" alt="Exp 4 Validation Checklist Output" onclick="openLightbox(this.src)">
+        </div>
+
+        <h3 class="sub-title">4. End-to-End Pipeline Validation Checklist Table</h3>
         <table class="styled-table">
           <thead>
             <tr>

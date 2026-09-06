@@ -35,7 +35,7 @@ A structured academic Big Data engineering project investigating time-series pow
 | **Exp 1** | **Domain Selection, Setup & EDA** | `verify_environment.py`<br>`exp1_eda.py` | `data/solar_generation.csv`<br>`data/wind_generation.csv` | [EXPERIMENT_1_MANUAL.md](EXPERIMENT_1_MANUAL.md) | `screenshots/exp1_01_environment_check.png`<br>`screenshots/exp1_02_eda_comparison.png` |
 | **Exp 2** | **Project Proposal & Architecture** | `exp2_generate_architecture.py` | `architecture_diagram.png`<br>`architecture.drawio` | [EXPERIMENT_2_MANUAL.md](EXPERIMENT_2_MANUAL.md) | `screenshots/exp2_01_architecture_diagram.png`<br>`screenshots/exp2_02_generator_terminal.png` |
 | **Exp 3** | **MapReduce on Unstructured Text** | `exp3_mapreduce.py` | `data/renewable_energy_text.txt` | [EXPERIMENT_3_MANUAL.md](EXPERIMENT_3_MANUAL.md) | `screenshots/exp3_01_map_phase.png`<br>`screenshots/exp3_02_reduce_and_filter.png` |
-| **Exp 4** | **Ingestion Pipeline & MongoDB Staging** | `exp4_pipeline.py` | `cleaned_energy_data.csv`<br>MongoDB: `renewable_db` | [EXPERIMENT_4_MANUAL.md](EXPERIMENT_4_MANUAL.md) | `screenshots/exp4_01_pipeline_mongodb.png` |
+| **Exp 4** | **Ingestion Pipeline & MongoDB Staging** | `exp4_pipeline.py` | `cleaned_energy_data.csv`<br>MongoDB: `renewable_db` | [EXPERIMENT_4_MANUAL.md](EXPERIMENT_4_MANUAL.md) | `screenshots/exp4_01_pyspark_ingestion.png`<br>`screenshots/exp4_02_mongodb_staging_queries.png`<br>`screenshots/exp4_03_validation_checklist.png` |
 
 ---
 
@@ -124,9 +124,12 @@ python compile_all_experiments_and_screenshots.py
 │   ├── exp1_01_environment_check.png
 │   ├── exp1_02_eda_comparison.png
 │   ├── exp2_01_architecture_diagram.png
+│   ├── exp2_02_generator_terminal.png
 │   ├── exp3_01_map_phase.png
 │   ├── exp3_02_reduce_and_filter.png
-│   └── exp4_01_pipeline_mongodb.png
+│   ├── exp4_01_pyspark_ingestion.png
+│   ├── exp4_02_mongodb_staging_queries.png
+│   └── exp4_03_validation_checklist.png
 ├── EXPERIMENT_1_MANUAL.md           # Exp 1 complete write-up & screenshot guide
 ├── EXPERIMENT_2_MANUAL.md           # Exp 2 proposal, architecture & Draw.io guide
 ├── EXPERIMENT_3_MANUAL.md           # Exp 3 PySpark RDD MapReduce write-up

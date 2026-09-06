@@ -185,12 +185,39 @@ def main():
     )
 
     # -------------------------------------------------------------
-    # Experiment 4: Ingestion Pipeline & MongoDB
+    # Experiment 4: Ingestion Pipeline & MongoDB (3 Distinct Screenshots)
     # -------------------------------------------------------------
     print("\n[4/4] Running & Capturing Experiment 4...")
     pipeline_lines = run_command_capture(["exp4_pipeline.py"])
+
+    step3_idx = next(i for i, l in enumerate(pipeline_lines) if "STEP 3:" in l)
+    step5_idx = next(i for i, l in enumerate(pipeline_lines) if "STEP 5:" in l)
+
+    part1_lines = pipeline_lines[:step3_idx]
+    part2_lines = pipeline_lines[step3_idx:step5_idx]
+    part3_lines = pipeline_lines[step5_idx:]
+
+    # Screenshot 1: HDFS Setup & PySpark Ingestion
     render_terminal_screenshot(
-        "Experiment 4 - Data Ingestion Pipeline & MongoDB Staging",
+        "Experiment 4 (Part 1) - HDFS Setup & PySpark Ingestion",
+        part1_lines,
+        os.path.join(SCREENSHOTS_DIR, "exp4_01_pyspark_ingestion.png")
+    )
+    # Screenshot 2: MongoDB Staging & Queries
+    render_terminal_screenshot(
+        "Experiment 4 (Part 2) - MongoDB Staging & NoSQL Queries",
+        part2_lines,
+        os.path.join(SCREENSHOTS_DIR, "exp4_02_mongodb_staging_queries.png")
+    )
+    # Screenshot 3: Validation Checklist
+    render_terminal_screenshot(
+        "Experiment 4 (Part 3) - End-to-End Validation Checklist",
+        part3_lines,
+        os.path.join(SCREENSHOTS_DIR, "exp4_03_validation_checklist.png")
+    )
+    # Also maintain full combined screenshot for reference
+    render_terminal_screenshot(
+        "Experiment 4 - Full Pipeline & MongoDB Output",
         pipeline_lines,
         os.path.join(SCREENSHOTS_DIR, "exp4_01_pipeline_mongodb.png")
     )

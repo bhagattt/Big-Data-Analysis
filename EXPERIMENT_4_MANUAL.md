@@ -292,12 +292,15 @@ root
 ## 11. Screenshots to Add in Lab Record
 When compiling your lab record for Experiment 4, capture and paste the following 3 screenshots:
 
-1. **Screenshot 1: PySpark Data Ingestion & Schema**
+1. **Screenshot 1: PySpark Data Ingestion & Schema (Figure 4.1)**
+   - Generated file: `screenshots/exp4_01_pyspark_ingestion.png`
    - Command: `python exp4_pipeline.py`
-   - Content to capture: The `STEP 2` output showing `Raw Solar Records Read: 720`, `Cleaned & Combined Records: 1440`, and the `Cleaned PySpark DataFrame Schema`.
-2. **Screenshot 2: MongoDB Document Staging & Query Results**
+   - Content to capture: The `STEP 1` & `STEP 2` output showing HDFS setup, `Raw Solar Records Read: 720`, `Raw Wind Records Read: 720`, `Cleaned & Combined Records: 1440`, and the `Cleaned PySpark DataFrame Schema`.
+2. **Screenshot 2: MongoDB Document Staging & Query Results (Figure 4.2)**
+   - Generated file: `screenshots/exp4_02_mongodb_staging_queries.png`
    - Command: `python exp4_pipeline.py`
    - Content to capture: The `STEP 3` and `STEP 4` outputs showing `Inserted 1440 documents into MongoDB successfully!`, `[Query 1: count_documents] Total: 1440`, and the sample JSON document.
-3. **Screenshot 3: End-to-End Validation Checklist**
+3. **Screenshot 3: End-to-End Validation Checklist (Figure 4.3)**
+   - Generated file: `screenshots/exp4_03_validation_checklist.png`
    - Command: `python exp4_pipeline.py`
    - Content to capture: The `STEP 5: End-to-End Pipeline Validation Checklist` with all 6 checkmarks `[x]`.

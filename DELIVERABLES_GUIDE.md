@@ -12,8 +12,8 @@
 | **1** | **Domain Selection, Setup & EDA** | `python verify_environment.py`<br>`python exp1_eda.py` | `data/solar_generation.csv` (720 rows)<br>`data/wind_generation.csv` (720 rows) | [EXPERIMENT_1_MANUAL.md](file:///c:/Coding/data%20cleaning/EXPERIMENT_1_MANUAL.md) | 1. `screenshots/exp1_01_environment_check.png`<br>2. `screenshots/exp1_02_eda_comparison.png` |
 | **2** | **Project Proposal & Architecture** | `python exp2_generate_architecture.py` | `architecture_diagram.png`<br>`architecture.drawio` | [EXPERIMENT_2_MANUAL.md](file:///c:/Coding/data%20cleaning/EXPERIMENT_2_MANUAL.md) | 1. `screenshots/exp2_01_architecture_diagram.png`<br>2. `screenshots/exp2_02_generator_terminal.png` |
 | **3** | **MapReduce Processing on Unstructured Text** | `python exp3_mapreduce.py` | `data/renewable_energy_text.txt` | [EXPERIMENT_3_MANUAL.md](file:///c:/Coding/data%20cleaning/EXPERIMENT_3_MANUAL.md) | 1. `screenshots/exp3_01_map_phase.png`<br>2. `screenshots/exp3_02_reduce_and_filter.png` |
-| **4** | **Data Ingestion Pipeline & NoSQL Staging** | `python exp4_pipeline.py` | `hdfs_simulation/renewable_energy/processed/cleaned_energy_data.csv`<br>MongoDB Database: `renewable_db` (1,440 docs) | [EXPERIMENT_4_MANUAL.md](file:///c:/Coding/data%20cleaning/EXPERIMENT_4_MANUAL.md) | 1. `screenshots/exp4_01_pipeline_mongodb.png` |
-| **Viva** | **Viva Voce Exam Preparation** | — | — | [VIVA_CHEAT_SHEET.md](file:///c:/Coding/data%20cleaning/VIVA_CHEAT_SHEET.md) | — |
+| **4** | **Data Ingestion Pipeline & NoSQL Staging** | `python exp4_pipeline.py` | `hdfs_simulation/renewable_energy/processed/cleaned_energy_data.csv`<br>MongoDB Database: `renewable_db` (1,440 docs) | [EXPERIMENT_4_MANUAL.md](EXPERIMENT_4_MANUAL.md) | 1. `screenshots/exp4_01_pyspark_ingestion.png`<br>2. `screenshots/exp4_02_mongodb_staging_queries.png`<br>3. `screenshots/exp4_03_validation_checklist.png` |
+| **Viva** | **Viva Voce Exam Preparation** | — | — | [VIVA_CHEAT_SHEET.md](VIVA_CHEAT_SHEET.md) | — |
 
 ---
 
@@ -62,4 +62,6 @@ This script executes all 4 experiments and automatically generates dark-themed, 
   - Lab Manual text from `EXPERIMENT_4_MANUAL.md`.
   - Python script `exp4_pipeline.py`.
 - **Screenshots to Include:**
-  1. `screenshots/exp4_01_pipeline_mongodb.png` (Shows PySpark schema, 1,440 combined records, MongoDB insertion, queries for peak solar generation, grouped aggregations, and the 6-point validation checklist).
+  1. `screenshots/exp4_01_pyspark_ingestion.png` (Shows HDFS setup, PySpark raw ingestion of 720 Solar and 720 Wind rows, schema casting, and Solar aggregations).
+  2. `screenshots/exp4_02_mongodb_staging_queries.png` (Shows Wind aggregations, combined metrics, cleaned CSV export to HDFS processed staging, and staging 1,440 documents into MongoDB).
+  3. `screenshots/exp4_03_validation_checklist.png` (Shows MongoDB NoSQL queries for peak generation, grouped generation metrics, and the 6-point end-to-end validation checklist).
