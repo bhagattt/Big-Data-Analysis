@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparative Study: Solar vs Wind Output — Laboratory Portfolio</title>
+  <meta name="description" content="Technical Portfolio for Big Data Laboratory Experiments 1 to 4: Comparative Study of Solar versus Wind Power Output using PySpark, HDFS, and MongoDB.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --bg-surface: #111827;
+      --bg-card: #1f293d;
+      --bg-card-hover: #26334d;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.4);
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.25);
+      --secondary: #06b6d4;
+      --accent-solar: #f59e0b;
+      --accent-wind: #10b981;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --terminal-bg: #0d1117;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header & Navigation */
+    header {
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(11, 15, 25, 0.95);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .nav-tab {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: none;
+      background: transparent;
+    }
+
+    .nav-tab:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-tab.active {
+      color: #ffffff;
+      background: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 48px 0 28px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 32px;
+    }
+
+    .meta-tag {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+
+    .hero-title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 860px;
+      margin-bottom: 24px;
+    }
+
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+
+    .stat-val {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    /* Tab Content Panels */
+    .tab-content {
+      display: none;
+      padding-bottom: 80px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .content-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 32px;
+      margin-bottom: 28px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .card-badge {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-blue { background: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .badge-green { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+    h3.sub-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 24px 0 12px;
+    }
+
+    p {
+      margin-bottom: 14px;
+      color: var(--text-main);
+    }
+
+    /* Tables */
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin: 16px 0 24px;
+    }
+
+    .styled-table th {
+      background: rgba(255, 255, 255, 0.04);
+      color: #ffffff;
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .styled-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #d1d5db;
+    }
+
+    .styled-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Figures & Screenshots */
+    .screenshot-box {
+      background: #0d1117;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+
+    .screenshot-header {
+      background: #161b22;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.82rem;
+      color: #8b949e;
+    }
+
+    .screenshot-caption {
+      font-weight: 600;
+      color: #c9d1d9;
+    }
+
+    .screenshot-box img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: zoom-in;
+    }
+
+    /* Code Blocks */
+    .code-wrapper {
+      background: var(--terminal-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 16px 0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .code-header {
+      background: #161b22;
+      padding: 8px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: #8b949e;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #c9d1d9;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    pre {
+      padding: 14px;
+      overflow-x: auto;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: #e6edf3;
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-width: 92vw;
+      max-height: 90vh;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      color: #ffffff;
+      font-size: 1.8rem;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media print {
+      body { background: #ffffff; color: #000000; font-size: 12pt; }
+      header, .copy-btn, .lightbox-close { display: none !important; }
+      .tab-content { display: block !important; }
+      .content-card { border: 1px solid #000000; background: #ffffff; color: #000000; }
+    }
+
+    @media (max-width: 860px) {
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .nav-tabs { overflow-x: auto; }
+      .hero-title { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="brand-title">Big Data Laboratory: Solar vs Wind</a>
+      <nav class="nav-tabs" role="tablist">
+        <button class="nav-tab active" onclick="switchTab('overview')">Overview</button>
+        <button class="nav-tab" onclick="switchTab('exp1')">Experiment 1</button>
+        <button class="nav-tab" onclick="switchTab('exp2')">Experiment 2</button>
+        <button class="nav-tab" onclick="switchTab('exp3')">Experiment 3</button>
+        <button class="nav-tab" onclick="switchTab('exp4')">Experiment 4</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="container hero">
+    <span class="meta-tag">Big Data Laboratory Portfolio &bull; Experiments 1 to 4</span>
+    <h1 class="hero-title">Comparative Study: Solar vs Wind Output</h1>
+    <p class="hero-sub">
+      A structured Big Data engineering implementation evaluating time-series energy generation patterns from the European power system 
+      using Apache Spark (PySpark), Hadoop Distributed File System (HDFS), and MongoDB NoSQL staging.
+    </p>
+
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-val">1,440</div>
+        <div class="stat-label">Hourly Observations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">OPSD (DE)<sup>[1]</sup></div>
+        <div class="stat-label">European Grid Data</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">PySpark 4.2</div>
+        <div class="stat-label">In-Memory Engine</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">MongoDB</div>
+        <div class="stat-label">NoSQL Document Store</div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <!-- ========================================================================= -->
+    <!-- TAB 1: OVERVIEW -->
+    <!-- ========================================================================= -->
+    <div id="overview" class="tab-content active">
+      <div class="content-card">
+        <div class="card-header">
+          <div class="card-title">Master Deliverables and Experiments Summary</div>
+          <span class="card-badge badge-green">Verified & Ready</span>
+        </div>
+        <p>
+          This master table outlines every deliverable, code script, generated dataset, and corresponding terminal execution figure for laboratory evaluation.
+        </p>
+        
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Exp #</th>
+              <th>Experiment Title</th>
+              <th>Primary Script</th>
+              <th>Input / Output Artifacts</th>
+              <th>Key Deliverable</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Exp 1</strong></td>
+              <td><strong>Domain Selection, Setup & EDA</strong></td>
+              <td><code>verify_environment.py</code><br><code>exp1_eda.py</code></td>
+              <td><code>solar_generation.csv</code><br><code>wind_generation.csv</code></td>
+              <td>Real OPSD datasets (720 hrs), descriptive stats & comparison table</td>
+              <td><button class="copy-btn" onclick="switchTab('exp1')">View Exp 1</button></td>
+            </tr>
+            <tr>
+              <td><strong>Exp 2</strong></td>
+              <td><strong>Project Proposal & Architecture</strong></td>
+              <td><code>exp2_generate_architecture.py</code></td>
+              <td><code>architecture_diagram.png</code><br><code>architecture.drawio</code></td>
+              <td>Project proposal, 6-stage linear pipeline specifications</td>
+              <td><button class="copy-btn" onclick="switchTab('exp2')">View Exp 2</button></td>
+            </tr>
+            <tr>
+              <td><strong>Exp 3</strong></td>
+              <td><strong>MapReduce on Unstructured Text</strong></td>
+              <td><code>exp3_mapreduce.py</code></td>
+              <td><code>renewable_energy_text.txt</code></td>
+              <td>PySpark RDD Word Count & Keyword Filtering</td>
+              <td><button class="copy-btn" onclick="switchTab('exp3')">View Exp 3</button></td>
+            </tr>
+            <tr>
+              <td><strong>Exp 4</strong></td>
+              <td><strong>Ingestion Pipeline & MongoDB Staging</strong></td>
+              <td><code>exp4_pipeline.py</code></td>
+              <td><code>cleaned_energy_data.csv</code><br>MongoDB: <code>renewable_db</code></td>
+              <td>CSV &rarr; HDFS &rarr; PySpark &rarr; MongoDB (1,440 docs)</td>
+              <td><button class="copy-btn" onclick="switchTab('exp4')">View Exp 4</button></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="sub-title">Compilation Command</h3>
+        <p>
+          To reproduce all experiments and recompile all terminal verification figures in a single sequence:
+        </p>
+        <div class="code-wrapper">
+          <div class="code-header">
+            <span>Terminal Command</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('python compile_all_experiments_and_screenshots.py')">Copy</button>
+          </div>
+          <pre>python compile_all_experiments_and_screenshots.py</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 2: EXPERIMENT 1 -->
+    <!-- ========================================================================= -->
+    <div id="exp1" class="tab-content">
+      <div class="content-card">
+        <div class="card-header">
+          <div class="card-title">Experiment 1: Domain Selection, Setup & Exploratory Data Analysis</div>
+          <span class="card-badge badge-blue">Pandas & PySpark</span>
+        </div>
+
+        <p><strong>Aim:</strong> To verify the Big Data analytical environment and conduct Exploratory Data Analysis (EDA) on real-world Solar and Wind power generation datasets using Pandas and Apache Spark (PySpark).</p>
+        <p><strong>Dataset Description:</strong> Hourly power generation actuals retrieved from the Open Power System Data (OPSD) platform for the German transmission zone (720 hourly records, June 2019). Nameplate installed capacity: Solar = 49,497.0 MW; Wind = 49,370.0 MW.</p>
+
+        <h3 class="sub-title">1. Environment Verification Terminal Output (Figure 1.1)</h3>
+        <div class="screenshot-box">
+          <div class="screenshot-header">
+            <span class="screenshot-caption">Figure 1.1: Verification of Python 3.12, Java 22, PySpark 4.2.0, and Dataset Files</span>
+          </div>
+          <img src="screenshots/exp1_01_environment_check.png" alt="Exp 1 Environment Check" onclick="openLightbox(this.src)">
+        </div>
+
+        <h3 class="sub-title">2. Exploratory Data Analysis & Comparative Output (Figure 1.2)</h3>
+        <div class="screenshot-box">
+          <div class="screenshot-header">
+            <span class="screenshot-caption">Figure 1.2: Dimensions, Schema Types, Null Check, Descriptive Statistics & Comparative Metrics</span>
+          </div>
+          <img src="screenshots/exp1_02_eda_comparison.png" alt="Exp 1 EDA Output" onclick="openLightbox(this.src)">
+        </div>
+
+        <h3 class="sub-title">3. Statistical Comparison Table</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Metric Attribute</th>
+              <th>Solar Power Generation</th>
+              <th>Wind Power Generation</th>
+              <th>Engineering Significance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Data Source</td>
+              <td>OPSD Time Series (Germany Grid)<sup>[1]</sup></td>
+              <td>OPSD Time Series (Germany Grid)<sup>[1]</sup></td>
+              <td>Identical geographic region and timeframe</td>
+            </tr>
+            <tr>
+              <td>Total Hourly Records</td>
+              <td>720 hours</td>
+              <td>720 hours</td>
+              <td>Complete 30-day hourly observation series</td>
+            </tr>
+            <tr>
+              <td>Installed Capacity (MW)</td>
+              <td>49,497.0 MW</td>
+              <td>49,370.0 MW</td>
+              <td>Near-identical capacity baseline (&Delta; &lt; 0.3%)</td>
+            </tr>
+            <tr>
+              <td>Minimum Output (MW)</td>
+              <td>0.0 MW</td>
+              <td>1,196.0 MW</td>
+              <td>Solar exhibits zero night output; wind operates continuously</td>
+            </tr>
+            <tr>
+              <td>Maximum Peak Output (MW)</td>
+              <td>29,967.0 MW</td>
+              <td>33,025.0 MW</td>
+              <td>Solar peaks at solar noon; wind surges during weather fronts</td>
+            </tr>
+            <tr>
+              <td>Mean Output (MW)</td>
+              <td>8,964.28 MW</td>
+              <td>9,144.17 MW</td>
+              <td>Average output within 2% variance over the monthly horizon</td>
+            </tr>
+            <tr>
+              <td>Zero-Generation Hours</td>
+              <td>179 hours (24.86%)</td>
+              <td>0 hours (0.00%)</td>
+              <td>Empirical demonstration of solar diurnal dependency</td>
+            </tr>
+            <tr>
+              <td>Capacity Factor (CF)</td>
+              <td>18.11%</td>
+              <td>18.52%</td>
+              <td>CF = (Mean Output / Installed Capacity) &times; 100</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: EXPERIMENT 2 -->
+    <!-- ========================================================================= -->
+    <div id="exp2" class="tab-content">
+      <div class="content-card">
+        <div class="card-header">
+          <div class="card-title">Experiment 2: Project Proposal & System Architecture</div>
+          <span class="card-badge badge-amber">System Design</span>
+        </div>
+
+        <p><strong>Title:</strong> Comparative Study: Solar vs Wind Output</p>
+        <p><strong>Problem Statement:</strong> Power transmission operators face grid instability due to the intermittency of renewable sources. Developing an automated Big Data architecture capable of ingesting historical time-series generation data, cleaning records with PySpark, and staging them in a NoSQL database enables accurate capacity utilization and grid-balancing assessments.</p>
+
+        <h3 class="sub-title">1. System Architecture Diagram (Figure 2.1)</h3>
+        <div class="screenshot-box">
+          <div class="screenshot-header">
+            <span class="screenshot-caption">Figure 2.1: Six-Stage Linear Big Data Processing Architecture (300 DPI)</span>
+          </div>
+          <img src="screenshots/exp2_01_architecture_diagram.png" alt="Architecture Diagram" onclick="openLightbox(this.src)">
+        </div>
+
+        <h3 class="sub-title">2. Draw.io Architecture Box Specifications</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Box #</th>
+              <th>Stage Name</th>
+              <th>Exact Text Inside Box (for Draw.io)</th>
+              <th>Technical Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Stage 1</strong></td>
+              <td>Raw Data Sources</td>
+              <td>Solar & Wind CSV Datasets<br>(Open Power System Data &mdash; 60min Hourly Actuals)</td>
+              <td>Ingestion source containing uncompressed hourly records.</td>
+            </tr>
+            <tr>
+              <td><strong>Stage 2</strong></td>
+              <td>Distributed Storage</td>
+              <td>Hadoop Distributed File System<br>(/renewable_energy/raw/solar/ & /wind/)</td>
+              <td>Fault-tolerant raw storage across distributed HDFS blocks.</td>
+            </tr>
+            <tr>
+              <td><strong>Stage 3</strong></td>
+              <td>Distributed Processing</td>
+              <td>Apache Spark Engine<br>(Schema enforcement, null filtering, capacity factor calculation)</td>
+              <td>In-memory distributed ETL and transformation engine.</td>
+            </tr>
+            <tr>
+              <td><strong>Stage 4</strong></td>
+              <td>Processed Staging</td>
+              <td>Cleaned Structured Records<br>(/renewable_energy/processed/)</td>
+              <td>Staging directory for validated CSV/Parquet records.</td>
+            </tr>
+            <tr>
+              <td><strong>Stage 5</strong></td>
+              <td>NoSQL Database</td>
+              <td>MongoDB Document Store<br>(Database: renewable_db | Collection: energy_output)</td>
+              <td>Document-oriented database for flexible queries.</td>
+            </tr>
+            <tr>
+              <td><strong>Stage 6</strong></td>
+              <td>Comparative Analytics</td>
+              <td>Summary & Output Comparison<br>(Peak output, diurnal cycles, capacity utilization)</td>
+              <td>Final analytics layer for reporting and comparative study.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="sub-title">3. Team Roles and Responsibilities</h3>
+        <p>
+          <strong>1. Data Engineer:</strong> Implements HDFS directory trees, configures PySpark schema validation, and writes the PyMongo database loader.<br>
+          <strong>2. Data Analyst:</strong> Formulates MongoDB queries, computes capacity factor statistics, and designs comparative summary tables.<br>
+          <strong>3. Data Scientist:</strong> Analyzes generation volatility, assesses solar and wind grid complementarity, and writes technical reports.
+        </p>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 4: EXPERIMENT 3 -->
+    <!-- ========================================================================= -->
+    <div id="exp3" class="tab-content">
+      <div class="content-card">
+        <div class="card-header">
+          <div class="card-title">Experiment 3: MapReduce on Unstructured Text Data</div>
+          <span class="card-badge badge-blue">PySpark RDDs</span>
+        </div>
+
+        <p><strong>Aim:</strong> To implement the distributed MapReduce paradigm on an unstructured renewable energy text corpus using PySpark Resilient Distributed Datasets (RDDs) for Word Count and Keyword Filtering.</p>
+        <p><strong>Input Corpus:</strong> Plaintext scientific excerpt regarding solar and wind generation technologies (520 total words, 15 lines).</p>
+
+        <h3 class="sub-title">1. MapReduce Execution Output (Figure 3.1)</h3>
+        <div class="screenshot-box">
+          <div class="screenshot-header">
+            <span class="screenshot-caption">Figure 3.1: PySpark RDD Map, Shuffle & Reduce, Top 10 Words, and Filtered Keyword Counts</span>
+          </div>
+          <img src="screenshots/exp3_01_mapreduce_results.png" alt="Exp 3 MapReduce Results" onclick="openLightbox(this.src)">
+        </div>
+
+        <h3 class="sub-title">2. Filtered Domain-Specific Keyword Frequencies</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Target Keyword</th>
+              <th>Occurrences Count</th>
+              <th>Emitted Key-Value Tuple</th>
+              <th>Contextual Relevance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>power</strong></td>
+              <td>27</td>
+              <td><code>('power', 27)</code></td>
+              <td>Primary engineering output unit and generation subject.</td>
+            </tr>
+            <tr>
+              <td><strong>solar</strong></td>
+              <td>25</td>
+              <td><code>('solar', 25)</code></td>
+              <td>Photovoltaic and concentrated thermal technology terms.</td>
+            </tr>
+            <tr>
+              <td><strong>wind</strong></td>
+              <td>23</td>
+              <td><code>('wind', 23)</code></td>
+              <td>Turbine generation and offshore/onshore installations.</td>
+            </tr>
+            <tr>
+              <td><strong>energy</strong></td>
+              <td>11</td>
+              <td><code>('energy', 11)</code></td>
+              <td>Total electrical yield and sustainability terminology.</td>
+            </tr>
+            <tr>
+              <td><strong>renewable</strong></td>
+              <td>1</td>
+              <td><code>('renewable', 1)</code></td>
+              <td>Broad sector classification term.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="sub-title">3. PySpark RDD Implementation</h3>
+        <div class="code-wrapper">
+          <div class="code-header">
+            <span>exp3_mapreduce.py</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-mr').innerText)">Copy</button>
+          </div>
+          <pre id="code-mr"># 1. Map Phase: lines -> words -> (word, 1)
+words_rdd = lines_rdd.flatMap(clean_and_tokenize)
+pairs_rdd = words_rdd.map(lambda word: (word, 1))
+
+# 2. Shuffle & Reduce Phase: sum counts per key across partitions
+counts_rdd = pairs_rdd.reduceByKey(lambda a, b: a + b)
+
+# 3. Filter Phase: extract target domain keywords
+filtered_rdd = counts_rdd.filter(lambda pair: pair[0] in TARGET_KEYWORDS)</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 5: EXPERIMENT 4 -->
+    <!-- ========================================================================= -->
+    <div id="exp4" class="tab-content">
+      <div class="content-card">
+        <div class="card-header">
+          <div class="card-title">Experiment 4: Ingestion Pipeline & MongoDB NoSQL Staging</div>
+          <span class="card-badge badge-green">End-to-End Pipeline</span>
+        </div>
+
+        <p><strong>Aim:</strong> To build and validate an end-to-end data pipeline reading raw CSV files from HDFS storage, cleaning and engineering capacity factor metrics with PySpark, and staging records in a MongoDB NoSQL database.</p>
+        <p><strong>Pipeline Architecture:</strong> <code>CSV Lake</code> &rarr; <code>HDFS (/raw/)</code> &rarr; <code>PySpark Transformations</code> &rarr; <code>HDFS (/processed/)</code> &rarr; <code>MongoDB Collection</code>.</p>
+
+        <h3 class="sub-title">1. Pipeline Execution Terminal Output (Figure 4.1)</h3>
+        <div class="screenshot-box">
+          <div class="screenshot-header">
+            <span class="screenshot-caption">Figure 4.1: HDFS Staging, PySpark Cleaning, MongoDB Ingestion (1,440 Docs), and Query Validation</span>
+          </div>
+          <img src="screenshots/exp4_01_pipeline_mongodb.png" alt="Exp 4 Pipeline Output" onclick="openLightbox(this.src)">
+        </div>
+
+        <h3 class="sub-title">2. End-to-End Pipeline Validation Checklist</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Stage</th>
+              <th>Validation Requirement</th>
+              <th>Observed Metric / Value</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1. Raw CSV Lake</td>
+              <td>Existence of genuine OPSD time-series files</td>
+              <td>720 records Solar, 720 records Wind</td>
+              <td><span style="color: #34d399; font-weight: 700;">PASSED</span></td>
+            </tr>
+            <tr>
+              <td>2. HDFS Layout</td>
+              <td>Hierarchical directory structure allocated</td>
+              <td><code>/raw/solar/</code>, <code>/raw/wind/</code>, <code>/processed/</code></td>
+              <td><span style="color: #34d399; font-weight: 700;">PASSED</span></td>
+            </tr>
+            <tr>
+              <td>3. PySpark Engine</td>
+              <td>Null removal, casting to Double, feature derivation</td>
+              <td>0 nulls, <code>capacity_factor_pct</code> derived</td>
+              <td><span style="color: #34d399; font-weight: 700;">PASSED</span></td>
+            </tr>
+            <tr>
+              <td>4. Processed Staging</td>
+              <td>Persisted unified records to HDFS storage</td>
+              <td>1,440 structured rows written</td>
+              <td><span style="color: #34d399; font-weight: 700;">PASSED</span></td>
+            </tr>
+            <tr>
+              <td>5. MongoDB NoSQL</td>
+              <td>BSON document insertion into database</td>
+              <td>1,440 documents in <code>renewable_db.energy_output</code></td>
+              <td><span style="color: #34d399; font-weight: 700;">PASSED</span></td>
+            </tr>
+            <tr>
+              <td>6. Query Execution</td>
+              <td>Verification via count, find, and aggregate</td>
+              <td>Peak solar filters and grouped statistics retrieved</td>
+              <td><span style="color: #34d399; font-weight: 700;">PASSED</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="sub-title">3. MongoDB BSON Document Schema Specification</h3>
+        <div class="code-wrapper">
+          <div class="code-header">
+            <span>JSON BSON Document Representation (MongoDB: renewable_db.energy_output)</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('json-doc').innerText)">Copy</button>
+          </div>
+          <pre id="json-doc">{
+  "_id": ObjectId("66db..."),
+  "utc_timestamp": "2019-06-01 14:30:00",
+  "country": "DE",
+  "source": "Solar",
+  "power_output_mw": 25998.0,
+  "capacity_mw": 49497.0,
+  "capacity_factor_pct": 52.52
+}</pre>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Fullscreen Zoom Lightbox -->
+  <div id="lightbox" class="lightbox-modal" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" class="lightbox-content" src="" alt="Enlarged Figure" onclick="event.stopPropagation()">
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+
+      const targetTab = document.getElementById(tabId);
+      if (targetTab) targetTab.classList.add('active');
+
+      const activeBtn = Array.from(document.querySelectorAll('.nav-tab')).find(btn => 
+        btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)
+      );
+      if (activeBtn) activeBtn.classList.add('active');
+
+      window.scrollTo({ top: 160, behavior: 'smooth' });
+    }
+
+    function openLightbox(src) {
+      const modal = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      modal.classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>

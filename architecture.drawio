@@ -1,0 +1,66 @@
+<mxfile host="app.diagrams.net" modified="2026-09-06T19:26:00.000Z" agent="Antigravity" version="21.0.0" type="device">
+  <diagram id="solar_vs_wind_arch" name="Solar vs Wind Big Data Architecture">
+    <mxGraphModel dx="1000" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Box 1 -->
+        <mxCell id="box1" value="&lt;b&gt;Stage 1: Raw Data Sources&lt;/b&gt;&lt;br&gt;Solar &amp;amp; Wind CSV Datasets&lt;br&gt;(Open Power System Data - 60min Hourly Actuals)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1976D2;strokeWidth=2;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="40" width="350" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow 1 -->
+        <mxCell id="arr1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#37474F;" edge="1" parent="1" source="box1" target="box2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Box 2 -->
+        <mxCell id="box2" value="&lt;b&gt;Stage 2: Distributed Storage (HDFS)&lt;/b&gt;&lt;br&gt;Hadoop Distributed File System&lt;br&gt;(/renewable_energy/raw/solar/ &amp;amp; /wind/)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#F57C00;strokeWidth=2;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="150" width="350" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow 2 -->
+        <mxCell id="arr2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#37474F;" edge="1" parent="1" source="box2" target="box3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Box 3 -->
+        <mxCell id="box3" value="&lt;b&gt;Stage 3: Distributed Processing (PySpark)&lt;/b&gt;&lt;br&gt;Apache Spark Engine&lt;br&gt;(Data cleaning, schema validation, capacity factor)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#388E3C;strokeWidth=2;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="260" width="350" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow 3 -->
+        <mxCell id="arr3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#37474F;" edge="1" parent="1" source="box3" target="box4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Box 4 -->
+        <mxCell id="box4" value="&lt;b&gt;Stage 4: Processed Data Staging&lt;/b&gt;&lt;br&gt;Cleaned Structured Records&lt;br&gt;(/renewable_energy/processed/)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#7B1FA2;strokeWidth=2;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="370" width="350" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow 4 -->
+        <mxCell id="arr4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#37474F;" edge="1" parent="1" source="box4" target="box5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Box 5 -->
+        <mxCell id="box5" value="&lt;b&gt;Stage 5: NoSQL Document Database&lt;/b&gt;&lt;br&gt;MongoDB Document Store&lt;br&gt;(Database: renewable_db | Collection: energy_output)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2F1;strokeColor=#00796B;strokeWidth=2;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="480" width="350" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow 5 -->
+        <mxCell id="arr5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#37474F;" edge="1" parent="1" source="box5" target="box6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Box 6 -->
+        <mxCell id="box6" value="&lt;b&gt;Stage 6: Comparative Analytics &amp;amp; Reporting&lt;/b&gt;&lt;br&gt;Summary &amp;amp; Output Comparison&lt;br&gt;(Peak output, diurnal cycles, capacity utilization)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE7F6;strokeColor=#512DA8;strokeWidth=2;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="590" width="350" height="70" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
