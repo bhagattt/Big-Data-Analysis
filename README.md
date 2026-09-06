@@ -41,8 +41,9 @@ A structured academic Big Data engineering project investigating time-series pow
 
 ## Interactive Web Portfolio
 
-An interactive HTML laboratory portfolio is included:
-- Open [`index.html`](index.html) in any web browser to view the complete interactive dashboard with embedded terminal figures, statistical comparison tables, and full-screen image zoom.
+An interactive HTML laboratory portfolio is deployed live and included locally:
+- **Live Deployment:** [https://big-data-analysis.vercel.app](https://big-data-analysis.vercel.app)
+- **Local File:** Open [`index.html`](index.html) in any web browser to view the complete interactive dashboard with embedded terminal figures, statistical comparison tables, and full-screen image zoom.
 
 ---
 
