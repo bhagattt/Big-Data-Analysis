@@ -688,15 +688,23 @@
         <p><strong>Aim:</strong> To implement the distributed MapReduce paradigm on an unstructured renewable energy text corpus using PySpark Resilient Distributed Datasets (RDDs) for Word Count and Keyword Filtering.</p>
         <p><strong>Input Corpus:</strong> Plaintext scientific excerpt regarding solar and wind generation technologies (520 total words, 15 lines).</p>
 
-        <h3 class="sub-title">1. MapReduce Execution Output (Figure 3.1)</h3>
+        <h3 class="sub-title">1. Map Phase & Token Pairing Terminal Output (Figure 3.1)</h3>
         <div class="screenshot-box">
           <div class="screenshot-header">
-            <span class="screenshot-caption">Figure 3.1: PySpark RDD Map, Shuffle & Reduce, Top 10 Words, and Filtered Keyword Counts</span>
+            <span class="screenshot-caption">Figure 3.1: Map Phase &mdash; Text Ingestion, 520 Word Tokens Emitted, and Sample (word, 1) Pairs</span>
           </div>
-          <img src="screenshots/exp3_01_mapreduce_results.png" alt="Exp 3 MapReduce Results" onclick="openLightbox(this.src)">
+          <img src="screenshots/exp3_01_map_phase.png" alt="Exp 3 Map Phase Output" onclick="openLightbox(this.src)">
         </div>
 
-        <h3 class="sub-title">2. Filtered Domain-Specific Keyword Frequencies</h3>
+        <h3 class="sub-title">2. Reduce Phase & Keyword Filtering Terminal Output (Figure 3.2)</h3>
+        <div class="screenshot-box">
+          <div class="screenshot-header">
+            <span class="screenshot-caption">Figure 3.2: Reduce & Filter Phase &mdash; 246 Distinct Keys, Top 10 Words, and Target Keyword Frequencies</span>
+          </div>
+          <img src="screenshots/exp3_02_reduce_and_filter.png" alt="Exp 3 Reduce and Filter Output" onclick="openLightbox(this.src)">
+        </div>
+
+        <h3 class="sub-title">3. Filtered Domain-Specific Keyword Frequencies</h3>
         <table class="styled-table">
           <thead>
             <tr>

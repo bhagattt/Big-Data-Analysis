@@ -151,12 +151,35 @@ def main():
         print(f"  [+] Saved screenshot: {dest_arch}")
 
     # -------------------------------------------------------------
-    # Experiment 3: MapReduce
+    # Experiment 3: MapReduce (Split into 2 focused screenshots)
     # -------------------------------------------------------------
     print("\n[3/4] Running & Capturing Experiment 3...")
     mr_lines = run_command_capture(["exp3_mapreduce.py"])
+
+    # Split lines into Map Phase and Reduce/Filter Phase
+    map_lines = []
+    reduce_lines = []
+    target_list = map_lines
+    for line in mr_lines:
+        if "PHASE 4: SHUFFLE & REDUCE PHASE" in line:
+            target_list = reduce_lines
+        target_list.append(line)
+
+    # Screenshot 1: Map Phase
     render_terminal_screenshot(
-        "Experiment 3 - MapReduce RDD Text Processing",
+        "Experiment 3 (Part 1) - Map Phase & Token Pairing",
+        map_lines,
+        os.path.join(SCREENSHOTS_DIR, "exp3_01_map_phase.png")
+    )
+    # Screenshot 2: Reduce & Filter Phase
+    render_terminal_screenshot(
+        "Experiment 3 (Part 2) - Reduce Phase & Keyword Filtering",
+        reduce_lines,
+        os.path.join(SCREENSHOTS_DIR, "exp3_02_reduce_and_filter.png")
+    )
+    # Also maintain full combined screenshot for backwards compatibility
+    render_terminal_screenshot(
+        "Experiment 3 - Full MapReduce Results",
         mr_lines,
         os.path.join(SCREENSHOTS_DIR, "exp3_01_mapreduce_results.png")
     )
